@@ -34,9 +34,10 @@ fn do_the_thing(path: &Path) -> Result<Vec<u8>, Remark<io::Error>> {
     read_file(path, &mut buf)
         // Add a remark on what's going on if an error happened.
         // This gives users something more meaningful than the generic OS-provided error message.
-        // remark_vars lets you also include the Debug representation of some variables for context.
-        // Extra variables can be of any type (even mixed types) as long as they implement Debug.
-        .remark_vars("failed to read secret file", &[&path, &buf.len()])?;
+        // err_remark_vars lets you also include the Debug representation of some variables for
+        // context. Extra variables can be of any type (even mixed types) as long as they implement
+        // Debug.
+        .err_remark_vars("failed to read secret file", &[&path, &buf.len()])?;
 
     Ok(buf.to_vec())
 }
