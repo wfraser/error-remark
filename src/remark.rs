@@ -12,8 +12,9 @@ pub struct Remark<E> {
 }
 
 impl<E> Remark<E>
-    where E: Display + Debug + 'static
+    where E: Display + Debug
 {
+    /// Attach a fixed message to an error.
     pub(crate) fn new_str(error: E, s: &'static str) -> Self {
         Self {
             msg: Cow::Borrowed(s),
@@ -21,6 +22,7 @@ impl<E> Remark<E>
         }
     }
 
+    /// Attach an owned string message to an error.
     pub(crate) fn new_string(error: E, s: String) -> Self {
         Self {
             msg: Cow::Owned(s),
@@ -30,7 +32,7 @@ impl<E> Remark<E>
 }
 
 impl<E> Debug for Remark<E>
-    where E: Display + Debug + 'static
+    where E: Display + Debug
 {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.msg, self.error)
@@ -38,7 +40,7 @@ impl<E> Debug for Remark<E>
 }
 
 impl<E> Display for Remark<E>
-    where E: Display + Debug + 'static
+    where E: Display + Debug
 {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.msg, self.error)
