@@ -1,5 +1,5 @@
 use crate::Remark;
-use std::fmt::{Debug, Display, Write};
+use std::fmt::{Debug, Write};
 
 /// An extension trait adding remark methods to `Result`.
 pub trait ResultExt<T, E> {
@@ -11,9 +11,7 @@ pub trait ResultExt<T, E> {
     fn err_remark_vars(self, msg: &'static str, stuff: &[&dyn Debug]) -> Result<T, Remark<E>>;
 }
 
-impl<T, E> ResultExt<T, E> for Result<T, E>
-    where E: Display + Debug + 'static
-{
+impl<T, E> ResultExt<T, E> for Result<T, E> {
     fn err_remark(self, msg: &'static str) -> Result<T, Remark<E>> {
         self.map_err(|e| Remark::new_str(e, msg))
     }

@@ -11,9 +11,7 @@ pub struct Remark<E> {
     pub msg: Cow<'static, str>,
 }
 
-impl<E> Remark<E>
-    where E: Display + Debug
-{
+impl<E> Remark<E> {
     /// Attach a fixed message to an error.
     pub(crate) fn new_str(error: E, s: &'static str) -> Self {
         Self {
@@ -31,29 +29,21 @@ impl<E> Remark<E>
     }
 }
 
-impl<E> Debug for Remark<E>
-    where E: Display + Debug
-{
+impl<E: Debug> Debug for Remark<E> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}: {:?}", self.msg, self.error)
+    }
+}
+
+impl<E: Display> Display for Remark<E> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.msg, self.error)
     }
 }
 
-impl<E> Display for Remark<E>
-    where E: Display + Debug
-{
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}: {}", self.msg, self.error)
-    }
-}
+impl<E: Debug + Display> Error for Remark<E> {}
 
-impl<E> Error for Remark<E>
-    where E: Display + Debug + 'static
-{}
-
-impl<E> std::ops::Deref for Remark<E>
-    where E: Display + Debug + 'static
-{
+impl<E> std::ops::Deref for Remark<E> {
     type Target = E;
     fn deref(&self) -> &Self::Target {
         &self.error
