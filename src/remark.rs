@@ -31,7 +31,12 @@ impl<E> Remark<E> {
 
 impl<E: Debug> Debug for Remark<E> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}: {:?}", self.msg, self.error)
+        // Pretend we're a map, because it's easier to read.
+        // Writes a result like:
+        //   {"remark message": ErrorDebugRepr { ...fields }}
+        f.debug_map()
+            .entry(&self.msg, &self.error)
+            .finish()
     }
 }
 
