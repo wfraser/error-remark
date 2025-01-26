@@ -29,6 +29,7 @@ fn deref_equality() {
 
 #[test]
 fn debug_fmt_long() {
+    #[allow(dead_code)]
     #[derive(Debug)]
     struct MyError {
         foo: i32,
@@ -50,6 +51,7 @@ fn debug_fmt_long() {
 
 #[test]
 fn debug_fmt_short() {
+    #[allow(dead_code)]
     #[derive(Debug)]
     struct MyError {
         foo: i32,
