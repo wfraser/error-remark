@@ -21,7 +21,7 @@ fn main() {
                 eprintln!("user error, file not found");
             }
             _ => {
-                result.expect("oh no the program blew up");
+                panic!("oh no the program blew up: {e}");
             }
         }
     }
